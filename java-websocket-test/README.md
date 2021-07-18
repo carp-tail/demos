@@ -1,0 +1,3 @@
+*WebSocket*是一种在单个TCP连接上进行全双工通信的协议，取代了ajax的频繁轮询和长链接。使得服务端可以向支持WebSocket的浏览器端发送数据。
+
+本项目实现了基于Java的WebSocket的连接，分别基于javax.servlet-api（type1）和Java-WebSocket（type2）。
