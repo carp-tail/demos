@@ -8,9 +8,10 @@ import java.util.List;
  * @Description: 用户Pojo
  * @Date: Create at 16:33 2021/7/26
  */
-public class Employee implements Serializable {
+public class EmployeeWithDiffId implements Serializable {
 
     private final static long serialVersionUID = 123L;
+//    private final static long serialVersionUID = 456L;
 
     //姓名
     private String name;
@@ -27,11 +28,11 @@ public class Employee implements Serializable {
     //描述
     private transient String desc;
 
-    public Employee(){
+    public EmployeeWithDiffId(){
 
     }
 
-    public Employee(String name, int age, Department department, List<Role> roleList, String desc) {
+    public EmployeeWithDiffId(String name, int age, Department department, List<Role> roleList, String desc) {
         this.name = name;
         this.age = age;
         this.department = department;

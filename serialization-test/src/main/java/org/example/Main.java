@@ -1,6 +1,9 @@
 package org.example;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.pojo.Employee;
+import org.example.pojo.EmployeeWithDiffId;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -21,6 +24,8 @@ public class Main {
         byte[] bytes;
         //用来指向反序列化后生成的对象
         Employee employee1;
+        //用来指向反序列化后生成的对象
+        EmployeeWithDiffId employee2;
 
         //a.Java的Serializable接口序列化
         /**
@@ -50,6 +55,45 @@ public class Main {
          * 5.通过 ObjectInputStream::
          */
         employee1 = (Employee) ois.readObject();
-        System.out.println("\033[1;33m[Java的Serializable接口序列化]得到的Employee对象:\033[0m" + employee1);
+        System.out.println("\033[1;33m[Java的Serializable接口序列化]得到的Employee对象:\033[0m" + employee1 + "\n\n");
+
+        //b.使用jackson进行序列化
+        /**
+         * 1.|2. 声明ObjectMapper
+         */
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        /**
+         * 1.1 将对象序列化为json字符串
+         */
+        String jsonStr = objectMapper.writeValueAsString(employee);
+        /**
+         * 1.2 将序列化的json字符串反序列化为对象
+         */
+        employee1 = objectMapper.readValue(jsonStr, Employee.class);
+        bytes = jsonStr.getBytes();
+        System.out.println("\033[1;33m[Java使用jackson进行序列化为String]得到的byte数组的长度:\033[0m" + bytes.length);
+        System.out.println("\033[1;33m[Java使用jackson进行序列化为String]得到的Employee对象:\033[0m" + employee1);
+
+        /**
+         * 2.1 将对象序列化为byte数组
+         */
+        bytes = objectMapper.writeValueAsBytes(employee);
+        /**
+         * 2.2 将序列化的byte数组反序列化为对象
+         */
+        employee1 = objectMapper.readValue(bytes, Employee.class);
+        System.out.println("\033[1;33m[Java使用jackson进行序列化为byte[]]得到的byte数组的长度:\033[0m" + bytes.length);
+        System.out.println("\033[1;33m[Java使用jackson进行序列化为byte[]]得到的Employee对象:\033[0m" + employee1);
+
+
+        employee2 = objectMapper.readValue(jsonStr, EmployeeWithDiffId.class);
+        bytes = jsonStr.getBytes();
+        System.out.println("\033[1;33m[Java使用jackson进行序列化为String]得到的byte数组的长度:\033[0m" + bytes.length);
+        System.out.println("\033[1;33m[Java使用jackson进行序列化为String]得到的EmployeeWithDiffId对象:\033[0m" + employee2);
+
+        employee2 = objectMapper.readValue(bytes, EmployeeWithDiffId.class);
+        System.out.println("\033[1;33m[Java使用jackson进行序列化为byte[]]得到的byte数组的长度:\033[0m" + bytes.length);
+        System.out.println("\033[1;33m[Java使用jackson进行序列化为byte[]]得到的EmployeeWithDiffId对象:\033[0m" + employee2);
     }
 }

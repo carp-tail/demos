@@ -17,6 +17,10 @@ public class Role implements Serializable {
     //描述
     private transient String desc;
 
+    public Role(){
+
+    }
+
     public Role(String name, String desc) {
         this.name = name;
         this.desc = desc;

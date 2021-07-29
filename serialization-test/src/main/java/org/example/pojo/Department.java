@@ -17,6 +17,10 @@ public class Department implements Serializable {
     //简介
     private transient String desc;
 
+    public Department(){
+
+    }
+
     public Department(String name, String desc) {
         this.name = name;
         this.desc = desc;
